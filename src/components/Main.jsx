@@ -13,35 +13,56 @@ const Standard = () => <div>Standard</div>;
 const Acre = () => <div>acre</div>;
 const Input = () => <div>Input</div>;
 class HomePage extends Component {
+
+    constructor(props) {
+        super(props);
+        this.state = {
+            activeSelect:  window.location.pathname.substring(window.location.pathname.lastIndexOf('/')+1)
+        };
+    }
+    componentDidMount() {
+        // console.log(this.state.activeSelect)
+    }
+  
     render() {
         return (
-            <div>
-                <header>人民政府</header>
-                <Menu theme="dark" className="el-menu-demo" mode="horizontal" onSelect={this.onSelect.bind(this)}>
-                    <Menu.Item index="0">首页</Menu.Item>
-                    <Menu.Item index="1">我的产品</Menu.Item>
-                    <Menu.Item index="2">生产标准</Menu.Item>
-                    <Menu.Item index="3">生产场地</Menu.Item>
-                    <Menu.Item index="4">投入品</Menu.Item>
-                    <Menu.SubMenu index="5" title="我的工作台">
-                        <Menu.Item index="5-1">选项</Menu.Item>
-                        <Menu.Item index="5-2">选项</Menu.Item>
-                        <Menu.Item index="5-3">选项</Menu.Item>
-                    </Menu.SubMenu>
-                    <Menu.Item index="6">订单管理</Menu.Item>
-                    <Menu.SubMenu index="7" title="系统设置">
-                        <Menu.Item index="7-1">区划设置</Menu.Item>
-                        <Menu.Item index="7-2">部门设置</Menu.Item>
-                        <Menu.Item index="7-3">用户设置</Menu.Item>
-                        <Menu.Item index="7-4">角色设置</Menu.Item>
-                    </Menu.SubMenu>
-                </Menu>
-                <main>
+            <div className="main">
+                <header className="clearfix">
+                    <div className="main-left fl">
+                        <p><span></span>江安县“智慧农安”管理平台</p>
+                    </div>
+                    <div className="main-right fr">
+                        <p>您好,今天是2017年12月25号，星期一</p>
+                        <p><span>退出</span>|<span>白羊</span> </p>
+                    </div>
+                </header>
+                <div className="main-menu">
+                    <Menu theme="dark" className="el-menu-main" defaultActive={this.state.activeSelect} mode="horizontal" onSelect={this.onSelect.bind(this)}>
+                        <Menu.Item index="0">首页</Menu.Item>
+                        <Menu.Item index="1">我的产品</Menu.Item>
+                        <Menu.Item index="2">生产标准</Menu.Item>
+                        <Menu.Item index="3">生产场地</Menu.Item>
+                        <Menu.Item index="4">投入品</Menu.Item>
+                        <Menu.SubMenu index="5" title="我的工作台">
+                            <Menu.Item index="5-1">选项</Menu.Item>
+                            <Menu.Item index="5-2">选项</Menu.Item>
+                            <Menu.Item index="5-3">选项</Menu.Item>
+                        </Menu.SubMenu>
+                        <Menu.Item index="6">订单管理</Menu.Item>
+                        <Menu.SubMenu index="7" title="系统设置">
+                            <Menu.Item index="7-1">区划设置</Menu.Item>
+                            <Menu.Item index="7-2">部门设置</Menu.Item>
+                            <Menu.Item index="7-3">用户设置</Menu.Item>
+                            <Menu.Item index="7-4">角色设置</Menu.Item>
+                        </Menu.SubMenu>
+                    </Menu>
+                </div>
+                <main className="tree">
                     <Switch>
-                        <Route path="/main/product" component={Product} />
-                        <Route path="/main/standard" component={Standard} />
-                        <Route path="/main/acre" component={Acre} />
-                        <Route path="/main/input" component={Input} />
+                        <Route path="/main/1" component={Product} />
+                        <Route path="/main/2" component={Standard} />
+                        <Route path="/main/3" component={Acre} />
+                        <Route path="/main/4" component={Input} />
                         <Route path="/main/7-1" component={Area} />
                     </Switch>
                 </main>
@@ -49,6 +70,9 @@ class HomePage extends Component {
         )
     }
     onSelect(index) {
+        this.setState({
+            activeSelect: index
+        });
         this.props.history.push('/main/'+index)
     }
 }

@@ -1,0 +1,52 @@
+header {
+    margin: 0 auto;
+    width: 1200px;
+}
+.main-left {
+    padding-top: 8px;
+}
+.main-right {
+    padding-top: 14px;
+}
+.main-left p {
+    line-height: 24px;
+    padding-top: 2px;
+    text-align: right;
+    font-size: 24px;
+    font-weight: 500;
+}
+.main-right p {
+    line-height: 24px;
+    padding-top: 2px;
+    text-align: right;
+    font-size: 16px;
+    font-weight: 400;
+}
+.main-left span {
+    vertical-align: middle;
+    display: inline-block;
+    width: 61px;
+    height: 66px;
+    margin: -2px 15px 2px;
+    background: url('../img/logo.png');
+}
+.main-right span {
+    vertical-align: middle;
+    display: inline-block;
+    margin: 0 10px;
+}
+.main{
+    height: 100%;
+}
+.main-menu{
+    text-align: center;
+    background-color: #324157;
+}
+.main-menu>ul{
+    width: 1200px;
+    margin: 0 auto;
+}
+.tree {
+    width: 20%;
+    height: calc(100% - 136px);
+}
