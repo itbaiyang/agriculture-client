@@ -6,8 +6,8 @@ import 'element-theme-default';
 // import Qs from 'qs';
 import '../css/Main.css';
 
-import Area from '../components/Area';
-
+import Area from '../components/setting/Area';
+import Dept from '../components/setting/Dept';
 const Product = () => <div>Product</div>;
 const Standard = () => <div>Standard</div>;
 const Acre = () => <div>acre</div>;
@@ -27,13 +27,15 @@ class HomePage extends Component {
     render() {
         return (
             <div className="main">
-                <header className="clearfix">
-                    <div className="main-left fl">
-                        <p><span></span>江安县“智慧农安”管理平台</p>
-                    </div>
-                    <div className="main-right fr">
-                        <p>您好,今天是2017年12月25号，星期一</p>
-                        <p><span>退出</span>|<span>白羊</span> </p>
+                <header>
+                    <div className="clearfix">
+                        <div className="main-left fl">
+                            <p><span></span>江安县“智慧农安”管理平台</p>
+                        </div>
+                        <div className="main-right fr">
+                            <p>您好,今天是2017年12月25号，星期一</p>
+                            <p><span>退出</span>|<span>白杨</span> </p>
+                        </div>
                     </div>
                 </header>
                 <div className="main-menu">
@@ -57,15 +59,17 @@ class HomePage extends Component {
                         </Menu.SubMenu>
                     </Menu>
                 </div>
-                <main className="tree">
+                <main className="container">
                     <Switch>
                         <Route path="/main/1" component={Product} />
                         <Route path="/main/2" component={Standard} />
                         <Route path="/main/3" component={Acre} />
                         <Route path="/main/4" component={Input} />
                         <Route path="/main/7-1" component={Area} />
+                        <Route path="/main/7-2" component={Dept} />
                     </Switch>
                 </main>
+                <footer className="footer">版权所有：江安县畜牧水产局 、农业局&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;技术支持：智锐达仪器科技南通有限公司</footer>
             </div>
         )
     }
