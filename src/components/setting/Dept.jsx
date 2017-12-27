@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
-import { Input, Tree, Button, Table, Breadcrumb, Dialog, Form, Select, Message } from 'element-react';
-import { Switch, Route } from 'react-router-dom';
+import { Input, Button, Table, Breadcrumb, Dialog, Form, Select, Message, Checkbox } from 'element-react';
+// import { Switch, Route } from 'react-router-dom';
 import 'element-theme-default';
 import axios from 'axios';
 import Qs from 'qs';
 
 import '../../css/setting.css'
+
 class Dept extends Component {
     constructor(props) {
         super(props);
@@ -46,46 +47,18 @@ class Dept extends Component {
                     fixed: 'right',
                     width: 100,
                     render: () => {
-                        return <span>
-                            <Button type="text" size="small">查看</Button>
-                            <Button type="text" size="small" onClick={this.editDept.bind(this)}>编辑</Button>
-                            </span>
+                        return <span><Button type="text" size="small">查看</Button><Button type="text" size="small" onClick={this.editDept.bind(this)}>编辑</Button></span>
                     }
                 }
             ],
             data: [],
             dialogVisible: false,
             isAdd: false,
-            options: [{
-                value: 1,
-                label: '黄金糕'
-            }, {
-                value: 2,
-                label: '双皮奶'
-            }, {
-                value: 3,
-                label: '蚵仔煎'
-            }, {
-                value: 4,
-                label: '龙须面'
-            }, {
-                value: 5,
-                label: '北京烤鸭'
-            }],
-            options1: [{
-                value: 1,
-                label: '黄金糕'
-            }, {
-                value: 2,
-                label: '双皮奶'
-            }],
-            options2: [{
-                value: 1,
-                label: '黄金糕'
-            }, {
-                value: 2,
-                label: '双皮奶'
-            }],
+            levelOptions: [],
+            areaOptions: [],
+            pDeptOptions: [],
+            productList: [],
+            checkedList: [],
             form: {
                 deptName: '',
                 levelId: '',
@@ -122,10 +95,9 @@ class Dept extends Component {
     }
 
     handleSubmit(e) {
+        console.log(this.state.checkedList)
         e.preventDefault();
-
         this.refs.form.validate((valid) => {
-            console.log(this.state.form)
             if (valid) {
                 this.setState({ dialogVisible: false })
                 if(this.state.isAdd){
@@ -167,10 +139,25 @@ class Dept extends Component {
     }
 
     onChange(key, value) {
-        this.setState({
-            form: Object.assign({}, this.state.form, { [key]: value })
-        });
+        if(key==='levelId') {
+            this.setState({
+                form: Object.assign({}, this.state.form, { levelId: value,areaId: '',pId: '' })
+            });
+            this.getAreaListByLevel(value);
+            this.getpDeptList(value-1);
+        }else if(key==='areaId'){
+            this.setState({
+                form: Object.assign({}, this.state.form, { areaId: value,pId: '' })
+            });
+            
+        }else {
+            console.log(key.value)
+            this.setState({
+                form: Object.assign({}, this.state.form, { [key]: value })
+            });
+        }
     }
+
 
     editDept(e) {
         e.preventDefault();
@@ -179,11 +166,58 @@ class Dept extends Component {
 
     componentDidMount() {
         this.getDeptListByArea();
+        this.getLevelList();
+        this.getpProductTypeList();
     }
+
+    getLevelList() {
+        axios.get('/levelList')
+            .then(response => {
+                this.setState({
+                    levelOptions: response.data.result
+                });
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
+    }
+    getAreaListByLevel(levelId) {
+        axios.get('/areaList', { params: { 'levelId': levelId }})
+            .then(response => {
+                this.setState({
+                    areaOptions: response.data.result
+                });
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
+    }
+    getpDeptList(levelId){
+        axios.get('/deptList', { params: { 'levelId': levelId }})
+            .then(response => {
+                this.setState({
+                    pDeptOptions: response.data.result
+                });
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
+    }
+    getpProductTypeList(){
+        axios.get('/productType')
+            .then(response => {
+                this.setState({
+                    productList: response.data.result
+                });
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
+    }
+
     getDeptListByArea(deptId) {
         axios.get('/deptList', { params: { 'deptId': 101 } })
             .then(response => {
-                console.log(response);
                 this.setState({
                     data: response.data.result
                 });
@@ -193,6 +227,18 @@ class Dept extends Component {
             });
     }
 
+    handleCheckedProductChange(value) {
+        console.log(value)
+        const checkedCount = value.length;
+        const productLength = this.state.productList.length;
+      
+        this.setState({
+          checkedList: value,
+          checkAll: checkedCount === productLength,
+          isIndeterminate: checkedCount > 0 && checkedCount < productLength,
+        });
+      }
+
     render() {
         return (
             <div className="tree">
@@ -201,12 +247,21 @@ class Dept extends Component {
                             <Breadcrumb.Item>系统设置</Breadcrumb.Item>
                             <Breadcrumb.Item>部门管理</Breadcrumb.Item>
                         </Breadcrumb>
-                    <Button type="primary" icon="plus" className="fr" onClick={() => this.setState({ dialogVisible: true, isAdd: true })}></Button>
+                    <Button type="primary" icon="plus" className="fr" onClick={() => this.setState({ dialogVisible: true, isAdd: true,
+                                form: {
+                                    deptName: '',
+                                    levelId: '',
+                                    areaId: '',
+                                    pId: '',
+                                    address: '',
+                                    contact: '',
+                                    contactNumber: ''
+                                }})}></Button>
                 </div>
                 <div className="content">
                     <div>
                         <Dialog
-                            title="收货地址"
+                            title="编辑部门"
                             visible={this.state.dialogVisible}
                             onCancel={() => this.setState({ dialogVisible: false })}
                         >
@@ -218,8 +273,8 @@ class Dept extends Component {
                                     <Form.Item label="部门级别" labelWidth="120" prop="levelId">
                                         <Select value={this.state.form.levelId} onChange={this.onChange.bind(this, 'levelId')}>
                                             {
-                                                this.state.options.map(el => {
-                                                    return <Select.Option key={el.value} label={el.label} value={el.value} />
+                                                this.state.levelOptions.map(el => {
+                                                    return <Select.Option key={el.levelId} label={el.levelName} value={el.levelId} />
                                                 })
                                             }
                                         </Select>
@@ -227,8 +282,8 @@ class Dept extends Component {
                                     <Form.Item label="所属区划" labelWidth="120" prop="areaId">
                                         <Select value={this.state.form.areaId} onChange={this.onChange.bind(this, 'areaId')}>
                                             {
-                                                this.state.options1.map(el => {
-                                                    return <Select.Option key={el.value} label={el.label} value={el.value} />
+                                                this.state.areaOptions.map(el => {
+                                                    return <Select.Option key={el.areaId} label={el.areaName} value={el.areaId} />
                                                 })
                                             }
                                         </Select>
@@ -236,8 +291,8 @@ class Dept extends Component {
                                     <Form.Item label="上级部门" labelWidth="120" prop="pId">
                                         <Select value={this.state.form.pId} onChange={this.onChange.bind(this, 'pId')}>
                                             {
-                                                this.state.options2.map(el => {
-                                                    return <Select.Option key={el.value} label={el.label} value={el.value} />
+                                                this.state.pDeptOptions.map(el => {
+                                                    return <Select.Option key={el.deptId} label={el.deptName} value={el.deptId} />
                                                 })
                                             }
                                         </Select>
@@ -250,6 +305,18 @@ class Dept extends Component {
                                     </Form.Item>
                                     <Form.Item label="联系电话" labelWidth="120" prop="contactNumber">
                                         <Input value={this.state.form.contactNumber} onChange={this.onChange.bind(this, 'contactNumber')}></Input>
+                                    </Form.Item>
+                                    <Form.Item label="管辖范围" labelWidth="120" prop="checkedList">
+                                        <Checkbox.Group
+                                            min="1"
+                                            value={this.state.checkedList}
+                                            onChange={this.handleCheckedProductChange.bind(this)}>
+                                            {
+                                            this.state.productList.map((produce, index) =>
+                                                <Checkbox key={index} label={produce}></Checkbox>
+                                            )
+                                            }
+                                        </Checkbox.Group>
                                     </Form.Item>
                                 </Form>
                             </Dialog.Body>

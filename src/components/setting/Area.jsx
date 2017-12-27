@@ -56,7 +56,6 @@ class Area extends Component {
     buildTree(index,zone){
     }
     render() {
-        const { data, options } = this.state
 
         return (
             <div className="tree">
