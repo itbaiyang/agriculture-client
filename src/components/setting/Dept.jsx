@@ -1,140 +1,284 @@
 import React, { Component } from 'react';
-import { Input, Tree, Button, Table,Breadcrumb } from 'element-react';
+import { Input, Tree, Button, Table, Breadcrumb, Dialog, Form, Select, Message } from 'element-react';
+import { Switch, Route } from 'react-router-dom';
 import 'element-theme-default';
 import axios from 'axios';
+import Qs from 'qs';
+
 import '../../css/setting.css'
-class Area extends Component {
+class Dept extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            data: [],
-            options: {
-                children: 'children',
-                label: 'label'
-            },
             columns: [
                 {
-                    label: "日期",
-                    prop: "date",
+                    label: "部门名称",
+                    prop: "deptName",
                     width: 180
                 },
                 {
-                    label: "姓名",
-                    prop: "name",
-                    width: 180
+                    label: "区划名称",
+                    prop: "areaName",
+                    width: 120
+                },
+                {
+                    label: "日期",
+                    prop: "createDate",
+                    width: 150
+                },
+                {
+                    label: "部门级别",
+                    prop: "levelName",
+                    width: 100
+                },
+                {
+                    label: "联系人",
+                    prop: "contact",
+                    width: 100
                 },
                 {
                     label: "地址",
                     prop: "address"
-                }
-            ],
-            data1: [{
-                date: '2016-05-02',
-                name: '王小虎',
-                address: '上海市普陀区金沙江路 1518 弄'
-            }, {
-                date: '2016-05-04',
-                name: '王小虎',
-                address: '上海市普陀区金沙江路 1517 弄'
-            }, {
-                date: '2016-05-01',
-                name: '王小虎',
-                address: '上海市普陀区金沙江路 1519 弄'
-            }, {
-                date: '2016-05-03',
-                name: '王小虎',
-                address: '上海市普陀区金沙江路 1516 弄'
-            }]
-        }
-    }
-    componentDidMount() {
-        axios.get('/area', { params: { 'areaNo': 1301, 'pageSize': 300 } })
-            .then(response => {
-                const temp = [];
-                const list = response.data.list;
-                if (response.data.list.length > 0) {
-                    temp.push({ label: list[0].areaName, id: list[0].areaId, children: [] });
-                    for (let i = 1, it = 0; i < list.length; i++) {
-                        if (list[i].pId === list[0].areaNo) {
-                            temp[0].children.push({ label: list[i].areaName, id: list[i].areaId, children: [] });
-                            for (let j = 1; j < list.length; j++) {
-                                if (list[j].pId === list[i].areaNo) {
-                                    temp[0].children[it].children.push({ label: list[j].areaName, id: list[j].areaId, children: [] });
-                                }
-                            }
-                            it++;
-                        }
+                },
+                {
+                    label: "操作",
+                    prop: "zip",
+                    fixed: 'right',
+                    width: 100,
+                    render: () => {
+                        return <span>
+                            <Button type="text" size="small">查看</Button>
+                            <Button type="text" size="small" onClick={this.editDept.bind(this)}>编辑</Button>
+                            </span>
                     }
                 }
-                this.setState({
-                    data: temp
-                });
-                console.log(this.state)
-            })
-            .catch(function (error) {
-                console.log(error);
-            });
+            ],
+            data: [],
+            dialogVisible: false,
+            isAdd: false,
+            options: [{
+                value: 1,
+                label: '黄金糕'
+            }, {
+                value: 2,
+                label: '双皮奶'
+            }, {
+                value: 3,
+                label: '蚵仔煎'
+            }, {
+                value: 4,
+                label: '龙须面'
+            }, {
+                value: 5,
+                label: '北京烤鸭'
+            }],
+            options1: [{
+                value: 1,
+                label: '黄金糕'
+            }, {
+                value: 2,
+                label: '双皮奶'
+            }],
+            options2: [{
+                value: 1,
+                label: '黄金糕'
+            }, {
+                value: 2,
+                label: '双皮奶'
+            }],
+            form: {
+                deptName: '',
+                levelId: '',
+                areaId: '',
+                pId: '',
+                address: '',
+                contact: '',
+                contactNumber: ''
+            },
+            rules: {
+                deptName: [
+                    { required: true, message: '请输入部门名称', trigger: 'blur' }
+                ],
+                levelId: [
+                    { type: 'number', required: true, message: '请选择部门级别', trigger: 'change' }
+                ],
+                areaId: [
+                    { type: 'number', required: true, message: '请选择所属区划', trigger: 'change' }
+                ],
+                pId: [
+                    { type: 'number', required: true, message: '请选择上级部门', trigger: 'change' }
+                ],
+                address: [
+                    { required: true, message: '请填写部门地址', trigger: 'blur' }
+                ],
+                contact: [
+                    { required: true, message: '请填写联系人', trigger: 'blur' }
+                ],
+                contactNumber: [
+                    { required: true, message: '请填写联系电话', trigger: 'blur' }
+                ]
+            }
+        }
     }
 
-    getDeptListByArea(areaId) {
-        axios.get('/deptList', { params: { 'areaId': areaId } })
+    handleSubmit(e) {
+        e.preventDefault();
+
+        this.refs.form.validate((valid) => {
+            console.log(this.state.form)
+            if (valid) {
+                this.setState({ dialogVisible: false })
+                if(this.state.isAdd){
+                    axios.post('/dept', Qs.stringify(this.state.form))
+                        .then(function (response) {
+                            Message({
+                                message: '恭喜你，成功添加部门',
+                                type: 'success'
+                            });
+                        })
+                        .catch(function (error) {
+                            console.log(error);
+                        });
+                }else {
+                    axios.put('/dept', Qs.stringify(this.state.form))
+                        .then(function (response) {
+                            Message({
+                                message: '恭喜你，成功修改部门',
+                                type: 'success'
+                            });
+                        })
+                        .catch(function (error) {
+                            console.log(error);
+                        });
+                }
+                
+            } else {
+                console.log('error submit!!');
+                return false;
+            }
+        });
+    }
+
+    handleReset(e) {
+        e.preventDefault();
+        this.setState({ dialogVisible: false })
+        this.refs.form.resetFields();
+        Message('取消添加部门');
+    }
+
+    onChange(key, value) {
+        this.setState({
+            form: Object.assign({}, this.state.form, { [key]: value })
+        });
+    }
+
+    editDept(e) {
+        e.preventDefault();
+        this.setState({ dialogVisible: true, isAdd: false })
+    }
+
+    componentDidMount() {
+        this.getDeptListByArea();
+    }
+    getDeptListByArea(deptId) {
+        axios.get('/deptList', { params: { 'deptId': 101 } })
             .then(response => {
-                console.log(this.response)
+                console.log(response);
+                this.setState({
+                    data: response.data.result
+                });
             })
             .catch(function (error) {
                 console.log(error);
             });
     }
-    buildTree(index, zone) {
-    }
-    render() {
-        const { data, options } = this.state
 
+    render() {
         return (
             <div className="tree">
-                {/* <Breadcrumb separator="/">
-                    <Breadcrumb.Item>首页</Breadcrumb.Item>
-                    <Breadcrumb.Item>活动管理</Breadcrumb.Item>
-                    <Breadcrumb.Item>活动列表</Breadcrumb.Item>
-                    <Breadcrumb.Item>活动详情</Breadcrumb.Item>
-                </Breadcrumb> */}
-                <div className="tree-container">
-                    <Input placeholder="输入关键字进行过滤" onChange={text => this.tree.filter(text)} />
-                    <Tree
-                        ref={e => this.tree = e}
-                        className="filter-tree"
-                        data={this.state.data}
-                        options={this.state.options}
-                        highlightCurrent={true}
-                        nodeKey="id"
-                        filterNodeMethod={(value, data) => {
-                            if (!value) return true;
-                            return data.label.indexOf(value) !== -1;
-                        }}
-                        onCheckChange={(data, checked, indeterminate) => {
-                            console.debug('onCheckChange: ', data, checked, indeterminate)
-                        }}
-                        onNodeClicked={(data, reactElement, ) => {
-                            console.debug('onNodeClicked: ', data, reactElement)
-                            this.getDeptListByArea(data.id);
-                        }}
-                    />
+                <div className="header">
+                        <Breadcrumb separator="/" className="fl">
+                            <Breadcrumb.Item>系统设置</Breadcrumb.Item>
+                            <Breadcrumb.Item>部门管理</Breadcrumb.Item>
+                        </Breadcrumb>
+                    <Button type="primary" icon="plus" className="fr" onClick={() => this.setState({ dialogVisible: true, isAdd: true })}></Button>
                 </div>
                 <div className="content">
-                    <div className="fr">
-                        <Button type="primary" icon="edit"></Button>
-                        <Button type="primary" icon="share"></Button>
-                        <Button type="primary" icon="delete"></Button>
-                        <Button type="primary" icon="search">搜索</Button>
-                        <Button type="primary">上传<i className="el-icon-upload el-icon-right"></i></Button>
+                    <div>
+                        <Dialog
+                            title="收货地址"
+                            visible={this.state.dialogVisible}
+                            onCancel={() => this.setState({ dialogVisible: false })}
+                        >
+                            <Dialog.Body>
+                                <Form ref="form" model={this.state.form} rules={this.state.rules}>
+                                    <Form.Item label="部门名称" labelWidth="120" prop="deptName">
+                                        <Input value={this.state.form.deptName} onChange={this.onChange.bind(this, 'deptName')}></Input>
+                                    </Form.Item>
+                                    <Form.Item label="部门级别" labelWidth="120" prop="levelId">
+                                        <Select value={this.state.form.levelId} onChange={this.onChange.bind(this, 'levelId')}>
+                                            {
+                                                this.state.options.map(el => {
+                                                    return <Select.Option key={el.value} label={el.label} value={el.value} />
+                                                })
+                                            }
+                                        </Select>
+                                    </Form.Item>
+                                    <Form.Item label="所属区划" labelWidth="120" prop="areaId">
+                                        <Select value={this.state.form.areaId} onChange={this.onChange.bind(this, 'areaId')}>
+                                            {
+                                                this.state.options1.map(el => {
+                                                    return <Select.Option key={el.value} label={el.label} value={el.value} />
+                                                })
+                                            }
+                                        </Select>
+                                    </Form.Item>
+                                    <Form.Item label="上级部门" labelWidth="120" prop="pId">
+                                        <Select value={this.state.form.pId} onChange={this.onChange.bind(this, 'pId')}>
+                                            {
+                                                this.state.options2.map(el => {
+                                                    return <Select.Option key={el.value} label={el.label} value={el.value} />
+                                                })
+                                            }
+                                        </Select>
+                                    </Form.Item>
+                                    <Form.Item label="部门地址" labelWidth="120" prop="address">
+                                        <Input value={this.state.form.address} onChange={this.onChange.bind(this, 'address')}></Input>
+                                    </Form.Item>
+                                    <Form.Item label="部门联系人" labelWidth="120" prop="contact">
+                                        <Input value={this.state.form.contact} onChange={this.onChange.bind(this, 'contact')}></Input>
+                                    </Form.Item>
+                                    <Form.Item label="联系电话" labelWidth="120" prop="contactNumber">
+                                        <Input value={this.state.form.contactNumber} onChange={this.onChange.bind(this, 'contactNumber')}></Input>
+                                    </Form.Item>
+                                </Form>
+                            </Dialog.Body>
+
+                            <Dialog.Footer className="dialog-footer">
+                                <Button onClick={this.handleReset.bind(this)}>取 消</Button>
+                                <Button type="primary" onClick={this.handleSubmit.bind(this)}>确 定</Button>
+                            </Dialog.Footer>
+                        </Dialog>
                     </div>
-                
-                    <p>部门列表</p>
                     <Table
                         style={{ width: '100%' }}
                         columns={this.state.columns}
-                        data={this.state.data1}
+                        data={this.state.data}
                         stripe={true}
+                        highlightCurrentRow={true}
+                        onCurrentChange={item => {
+                            this.setState({
+                                form: {
+                                    deptName: item.deptName,
+                                    levelId: item.levelId,
+                                    areaId: item.areaId,
+                                    pId: item.pId,
+                                    address: item.address,
+                                    contact: item.contact,
+                                    contactNumber: item.contactNumber
+                                },
+                            });
+                        }}
                     />
                 </div>
             </div>
@@ -142,4 +286,4 @@ class Area extends Component {
     }
 }
 
-export default Area;
+export default Dept;

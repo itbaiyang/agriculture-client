@@ -66,7 +66,7 @@ header>div {
     color: #ffffff;
     background: #1856a3;
 }
-.main-menu {
+/* .main-menu {
     text-align: center;
     background-color: #1856a3;
 }
@@ -93,7 +93,7 @@ header>div {
 .el-menu--horizontal>.el-submenu:hover .el-submenu__title {
     border-bottom: 5px solid #f39904;
 }
-
+*/
 .el-menu--horizontal .el-menu-item {
     height: 50px;
     line-height: 50px;
@@ -106,4 +106,4 @@ header>div {
     line-height: 50px;
     font-size: 18px;
     font-weight: 500;
-}
+} 

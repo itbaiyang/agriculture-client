@@ -17,7 +17,7 @@ class HomePage extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            activeSelect:  window.location.pathname.substring(window.location.pathname.lastIndexOf('/')+1)
+            activeSelect: window.location.pathname.substring(window.location.pathname.lastIndexOf('/')+1)
         };
     }
     componentDidMount() {
@@ -34,12 +34,12 @@ class HomePage extends Component {
                         </div>
                         <div className="main-right fr">
                             <p>您好,今天是2017年12月25号，星期一</p>
-                            <p><span>退出</span>|<span>白杨</span> </p>
+                            <p><span>退出</span>|<span>白杨</span></p>
                         </div>
                     </div>
                 </header>
                 <div className="main-menu">
-                    <Menu theme="dark" className="el-menu-main" defaultActive={this.state.activeSelect} mode="horizontal" onSelect={this.onSelect.bind(this)}>
+                    <Menu theme="dark" className="el-menu-main" defaultActive="7" mode="horizontal" onSelect={this.onSelect.bind(this)}>
                         <Menu.Item index="0">首页</Menu.Item>
                         <Menu.Item index="1">我的产品</Menu.Item>
                         <Menu.Item index="2">生产标准</Menu.Item>
