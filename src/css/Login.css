@@ -7,14 +7,17 @@
     background-position: center;
 }
 .login-title {
-    font-size: 18px;
-    margin: 0px;
+    line-height: 100px;
+    color: #fff;
+    font-size: 40px;
+    margin: 0 auto;
+    padding-top: 6%;
 }
-.login form {
+.login-box {
     border: 1px solid white;
     padding: 0 50px;
     width: 400px;
-    height: 560px;
+    height: 360px;
     background: rgb(165,208,243);
     background: rgba(30,139,226,0.4);
     position: absolute;
