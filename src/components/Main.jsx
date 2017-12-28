@@ -8,6 +8,8 @@ import '../css/Main.css';
 
 import Area from '../components/setting/Area';
 import Dept from '../components/setting/Dept';
+import User from '../components/setting/User';
+import Role from '../components/setting/Role'; 
 const Product = () => <div>Product</div>;
 const Standard = () => <div>Standard</div>;
 const Acre = () => <div>acre</div>;
@@ -56,6 +58,7 @@ class HomePage extends Component {
                             <Menu.Item index="7-2">部门设置</Menu.Item>
                             <Menu.Item index="7-3">用户设置</Menu.Item>
                             <Menu.Item index="7-4">角色设置</Menu.Item>
+                            {/* <Menu.Item index="7-5">权限设置</Menu.Item> */}
                         </Menu.SubMenu>
                     </Menu>
                 </div>
@@ -67,6 +70,9 @@ class HomePage extends Component {
                         <Route path="/main/4" component={Input} />
                         <Route path="/main/7-1" component={Area} />
                         <Route path="/main/7-2" component={Dept} />
+                        <Route path="/main/7-3" component={User} />
+                        <Route path="/main/7-4" component={Role} />
+                        {/* <Route path="/main/7-5" component={Permissions} /> */}
                     </Switch>
                 </main>
                 <footer className="footer">版权所有：江安县畜牧水产局 、农业局&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;技术支持：智锐达仪器科技南通有限公司</footer>
