@@ -36,7 +36,7 @@ class LoginControl extends Component {
         return (
             <div className="login">
                 <p className="login-title"><span></span>江安县“智慧农安”管理平台</p>
-                <div class="login-box">
+                <div className="login-box">
                     <p>登录管理系统</p>
                     <div>
                         <Input
