@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-
+import { Input, Button, Message } from 'element-react';
 import '../css/Login.css';
 import axios from 'axios';
 import Qs from 'qs';
@@ -15,13 +15,9 @@ class LoginControl extends Component {
         this.handleInputChange = this.handleInputChange.bind(this);
         this.login = this.login.bind(this);
     }
-    handleInputChange(event) {
-        const target = event.target;
-        const value = target.type === 'checkbox' ? target.checked : target.value;
-        const name = target.name;
-
+    handleInputChange(key, value ) {
         this.setState({
-            [name]: value
+            [key]: value
         });
     }
     login() {
@@ -42,16 +38,24 @@ class LoginControl extends Component {
                 <p className="login-title"><span></span>江安县“智慧农安”管理平台</p>
                 <div class="login-box">
                     <p>登录管理系统</p>
-                    <label>
-                        Name:
-                        <input type="text" name="account" value={this.state.account} onChange={this.handleInputChange} />
-                    </label>
-                    <label>
-                        Password:
-                        <input type="password" name="password" value={this.state.password} onChange={this.handleInputChange} />
-                    </label>
-                    <button type="primary" onClick={this.login}>登录</button>
-                    <Link to="/home">跳转</Link>
+                    <div>
+                        <Input
+                        value={this.state.account}
+                        onChange={this.handleInputChange.bind(this, 'account')}
+                        icon="message"
+                        placeholder="请输入账号"
+                        />
+                    </div>
+                    <div>
+                        <Input
+                        value={this.state.password}
+                        onChange={this.handleInputChange.bind(this, 'password')}
+                        icon="password"
+                        placeholder="请输入账密码"
+                        />
+                    </div>
+                    <Button type="primary" onClick={this.login}>登录</Button>
+                    <Button type="primary" className="btn-right" onClick={this.login}>注册</Button>
                 </div>
             </div>
         );

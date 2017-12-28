@@ -7,20 +7,52 @@
     background-position: center;
 }
 .login-title {
-    line-height: 100px;
+    position: absolute;
+    top: 50%;
+    left: 0;
+    width: 100%;
+    margin-top: -300px;
+    line-height: 48px;
+    height: 100px;
     color: #fff;
     font-size: 40px;
-    margin: 0 auto;
-    padding-top: 6%;
+    text-align: center;
+}
+.login-title span {
+    display: inline-block;
+    vertical-align: top;
+    width: 45px;
+    height: 48px;
+    background: url(/static/media/guohui.1f66c4f1.jpg)no-repeat;
+    background-size: cover;
+    margin-right: 10px;
 }
 .login-box {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin-left: -180px;
+    margin-top: -135px; 
+    box-sizing: border-box;
+    width: 360px;
+    height: 270px;
     border: 1px solid white;
-    padding: 0 50px;
-    width: 400px;
-    height: 360px;
+    padding: 0 30px;
     background: rgb(165,208,243);
     background: rgba(30,139,226,0.4);
-    position: absolute;
-    top: 240px;
-    left: calc(50% - 260px);
+    
+}
+.login-box p {
+    margin: 40px auto 30px;
+    font-size: 28px;
+    font-weight: 600;
+    color: #fff;
+}
+
+.login-box>div {
+    margin-bottom: 20px;
+}
+
+.el-button+.el-button.btn-right {
+    margin-left: 30px;
 }
