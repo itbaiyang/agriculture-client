@@ -1,8 +1,12 @@
-.tree {
+.tree, .main {
+    box-sizing: border-box;
     height: 100%;
     position: relative;
 }
-.tree > div.header {
+.tree > div.header, .main > div.header {
+    position: absolute;
+    box-sizing: border-box;
+    width: 100%;
     height: 46px;
     padding-top: 10px;
     line-height: 46px;
@@ -11,22 +15,25 @@
     font-size: 14px;
     line-height: 36px;
 }
-/* .tree-container {
+.tree-container {
     box-sizing: border-box;
-    padding: 30px 0;
+    padding: 50px 0;
     width: 200px;
     height: 100%;
     overflow: auto;
     position: absolute;
     left: 0;
     top: 0;
-} */
-/* .content {
+} 
+.content {
     box-sizing: border-box;
+    padding-top: 56px;
     width: 100%;
     height: 100%;
-    padding: 15px 15px 15px 215px;
-} */
+}
+.tree-right {
+    padding-left: 215px;
+}
 .btn-box-right {
     display: inline-block;
 }
