@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
-import { Input, Button, Message } from 'element-react';
-import '../css/Login.css';
+// import { Link } from 'react-router-dom';
+import { Input, Button } from 'element-react';
+import '../../css/Login.css';
 import axios from 'axios';
 import Qs from 'qs';
 
@@ -48,6 +48,7 @@ class LoginControl extends Component {
                     </div>
                     <div>
                         <Input
+                        type="password"
                         value={this.state.password}
                         onChange={this.handleInputChange.bind(this, 'password')}
                         icon="password"
@@ -55,7 +56,7 @@ class LoginControl extends Component {
                         />
                     </div>
                     <Button type="primary" onClick={this.login}>登录</Button>
-                    <Button type="primary" className="btn-right" onClick={this.login}>注册</Button>
+                    <Button type="primary" className="btn-right" onClick={() => window.location.pathname = "register"}>注册</Button>
                 </div>
             </div>
         );

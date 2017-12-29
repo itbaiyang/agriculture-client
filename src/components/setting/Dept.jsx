@@ -312,8 +312,8 @@ class Dept extends Component {
                                             value={this.state.checkedList}
                                             onChange={this.handleCheckedProductChange.bind(this)}>
                                             {
-                                            this.state.productList.map((produce, index) =>
-                                                <Checkbox key={index} label={produce}></Checkbox>
+                                            this.state.productList.map(el =>
+                                                <Checkbox key={el.id} label={el.typeName}></Checkbox>
                                             )
                                             }
                                         </Checkbox.Group>

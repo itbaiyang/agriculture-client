@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import { Input, Tree, Button, Table, Breadcrumb, Dialog, Form, Select, Message } from 'element-react';
-import { Switch, Route } from 'react-router-dom';
+import { Input, Button, Table, Breadcrumb, Dialog, Form, Select, Message } from 'element-react';
+// import { Switch, Route } from 'react-router-dom';
 import 'element-theme-default';
 import axios from 'axios';
 import Qs from 'qs';

@@ -66,34 +66,6 @@ header>div {
     color: #ffffff;
     background: #1856a3;
 }
-/* .main-menu {
-    text-align: center;
-    background-color: #1856a3;
-}
-.el-menu--dark .el-menu-item,
-.el-menu--dark .el-submenu__title {
-    color: #ffffff;
-}
-.el-menu-item.is-active, .el-submenu.is-active .el-submenu__title{
-    background-color: rgba(118, 177, 247, .6);
-    border-bottom: 4px solid #f39904;
-}
-.el-menu--dark {
-    background-color: #1856a3;
-}
-
-.el-menu--horizontal.el-menu--dark .el-menu-item:hover, 
-.el-menu--horizontal.el-menu--dark .el-submenu__title:hover {
-    background-color: #76b1f7;
-}
-
-.el-menu--horizontal>.el-menu-item:hover,
-.el-menu--horizontal>.el-menu-item.is-active,
-.el-menu--horizontal>.el-submenu.is-active .el-submenu__title,
-.el-menu--horizontal>.el-submenu:hover .el-submenu__title {
-    border-bottom: 5px solid #f39904;
-}
-*/
 .el-menu--horizontal .el-menu-item {
     height: 50px;
     line-height: 50px;
