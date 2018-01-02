@@ -6,30 +6,26 @@ import axios from 'axios';
 import Qs from 'qs';
 
 import '../../css/setting.css'
-import Permissions from '../../components/setting/Permissions';
+import '../../css/product.css'
 
-class Role extends Component {
+class Standard extends Component {
     constructor(props) {
         super(props);
         this.state = {
             roleList: [],
             columns: [
                 {
-                    label: "角色名称",
-                    prop: "roleName"
+                    label: "标准名称",
+                    prop: "standardName"
                 },
                 {
-                    label: "角色类型",
-                    prop: "typeName",
+                    label: "产品名称",
+                    prop: "objectName",
 
                 },
                 {
-                    label: "角色级别",
-                    prop: "levelName",
-                },
-                {
-                    label: "角色说明",
-                    prop: "expl"
+                    label: '所属企业',
+                    prop: "companyName",
                 },
                 {
                     label: "日期",
@@ -145,11 +141,12 @@ class Role extends Component {
     }
 
     componentDidMount() {
-        this.getRoleList(2);
+        this.getProductList(2);
     }
-    getRoleList(levelId) {
-        axios.get('/roleList', { params: { 'levelId': levelId, type: 1 } })
+    getProductList(levelId) {
+        axios.get('/standardList')
             .then(response => {
+                console.log(response)
                 this.setState({
                     roleList: response.data.result
                 });
@@ -164,12 +161,12 @@ class Role extends Component {
             <div className="main">
                 <div className="header">
                     <Breadcrumb separator="/" className="fl">
-                        <Breadcrumb.Item>系统设置</Breadcrumb.Item>
-                        <Breadcrumb.Item>角色管理</Breadcrumb.Item>
+                        <Breadcrumb.Item>生产标准</Breadcrumb.Item>
+                        <Breadcrumb.Item>列表</Breadcrumb.Item>
                     </Breadcrumb>
                     <Button type="primary" icon="plus" className="fr" onClick={() => this.setState({ dialogVisible: true, isAdd: true })}></Button>
                 </div>
-                <div className="content"> 
+                <div className="content">
                     <Table
                         style={{ width: '100%' }}
                         columns={this.state.columns}
@@ -219,7 +216,7 @@ class Role extends Component {
                                             }
                                         </Select>
                                     </Form.Item>
-                                    
+
                                     <Form.Item label="角色权限" labelWidth="120" prop="permissions">
                                         {/* <Permissions /> */}
                                     </Form.Item>
@@ -235,11 +232,11 @@ class Role extends Component {
                             </Dialog.Footer>
                         </Dialog>
                     </div>
-                    
+
                 </div>
             </div>
         )
     }
 }
 
-export default Role;
+export default Standard;

@@ -13,6 +13,8 @@ class Register extends Component {
                 account: '',
                 checkCode: '',
                 companyName: '',
+                credit: '',
+                userName: '',
                 areas: [],
                 checkedList: [],
                 productNo: '',
@@ -33,6 +35,12 @@ class Register extends Component {
                 ], 
                 companyName: [
                     { required: true, message: '请输入企业名称', trigger: 'blur' }
+                ],
+                credit: [
+                    { required: true, message: '请输入统一社会信用代码', trigger: 'blur' }
+                ],
+                userName: [
+                    { required: true, message: '请输入用户名称', trigger: 'blur' }
                 ], 
                 areas: [
                     { type: 'array', required: true, message: '请选择区划信息', trigger: 'change'  }
@@ -145,12 +153,10 @@ class Register extends Component {
                 form: Object.assign({}, this.state.form, { productNo: temp })
             });
         }
-        console.log(this.state.form)
     }
     getpProductTypeList() {
         axios.get('/productType')
             .then(response => {
-                console.log(response, this.state.productList instanceof Array, response.data.result instanceof Array)
                 this.setState({
                     productList: response.data.result
                 });
@@ -178,7 +184,13 @@ class Register extends Component {
                                 <Button type="danger">获取验证码</Button>
                             </Form.Item>
                             <Form.Item labelWidth='0' prop="companyName">
-                                <Input value={this.state.form.companyName} placeholder="请输入企业名称（营业执照）" onChange={this.onChange.bind(this, 'companyName')}></Input>
+                                <Input value={this.state.form.companyName} placeholder="请输入企业名称（营业执照企业名称）" onChange={this.onChange.bind(this, 'companyName')}></Input>
+                            </Form.Item>
+                            <Form.Item labelWidth='0' prop="credit">
+                                <Input value={this.state.form.credit} placeholder="统一社会信用代码" onChange={this.onChange.bind(this, 'credit')}></Input>
+                            </Form.Item>
+                            <Form.Item labelWidth='0' prop="userName">
+                                <Input value={this.state.form.userName} placeholder="请输入用户名称" onChange={this.onChange.bind(this, 'userName')}></Input>
                             </Form.Item>
                             <Form.Item labelWidth='0' prop="areas">
                                 <Cascader
@@ -260,6 +272,5 @@ class Register extends Component {
         );
     }
 }
-
 
 export default Register;

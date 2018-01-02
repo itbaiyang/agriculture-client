@@ -62,11 +62,15 @@
     height: 100%;
     text-align: center;
 }
+.register > p {
+    height: 60px;
+    line-height: 60px;
+    border-bottom: 1px solid #D7D8D9;
+}
 .register-container {
-    /* position: relative; */
     width: 1000px;
     background: #fff;
-    /* margin: 0 auto; */
+    margin: 80px auto;
     padding: 50px 250px;
     box-sizing: border-box;
 }

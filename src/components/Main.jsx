@@ -9,9 +9,9 @@ import '../css/Main.css';
 import Area from '../components/setting/Area';
 import Dept from '../components/setting/Dept';
 import User from '../components/setting/User';
-import Role from '../components/setting/Role'; 
-const Product = () => <div>Product</div>;
-const Standard = () => <div>Standard</div>;
+import Role from '../components/setting/Role';
+import Product from '../components/business/Product';
+import Standard from '../components/business/Standard';
 const Acre = () => <div>acre</div>;
 const Input = () => <div>Input</div>;
 class HomePage extends Component {
@@ -41,7 +41,7 @@ class HomePage extends Component {
                     </div>
                 </header>
                 <div className="main-menu">
-                    <Menu theme="dark" className="el-menu-main" defaultActive="7" mode="horizontal" onSelect={this.onSelect.bind(this)}>
+                    <Menu theme="dark" className="el-menu-main" defaultActive="activeSelect" mode="horizontal" onSelect={this.onSelect.bind(this)}>
                         <Menu.Item index="0">首页</Menu.Item>
                         <Menu.Item index="1">我的产品</Menu.Item>
                         <Menu.Item index="2">生产标准</Menu.Item>
